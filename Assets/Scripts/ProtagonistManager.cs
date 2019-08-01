@@ -10,62 +10,84 @@ using UnityEngine;
 
 public class ProtagonistManager : MonoBehaviour
 {
+    public bool GravityEnabled = true;
+
     // protagonist specs
-    public Vector3 jumpForce = new Vector3(0, 10, 0);
-    public float maxJumpTime = 3.0f;
     public float minDistToGround = 0.5f;
     public float gravitySpeed = 0.2f;
     public float jumpTime = 2.0f;
     public float jumpHeight = 1.5f;
+    public Vector3 lateralVectorSpeed;
+    public Transform cylinder;
+    public Vector3 constCylinderCenter;
+    public float constDistFromCylinderCenter;
+    public float distCheck = 0.25f;
 
     // supporting vars
-    public Rigidbody rb = null;
-    public bool jumping = false;
-    public bool jumpRequesting = false;
-    public bool grounded = false;
-    public int layerGround = 8;
-    public float currDistFromGround;
-    public float jump_peakYpos;
-    public RaycastHit hitInfo;
-    public Tween jumpTweener;
+    bool jumping = false;
+    bool jumpRequesting = false;
+    bool grounded = false;
+    int layerGround = 8;
+    float currDistFromGround;
+    float jump_peakYpos;
+    Vector3 startPos;
+    RaycastHit hitInfo;
+    Tween jumpTweener;
 
     private void Awake()
     {
-        rb = this.transform.GetComponent<Rigidbody>();
+        DOTween.Init();
     }
 
     void Start()
     {
+        startPos = transform.position;
+        constCylinderCenter = new Vector3(cylinder.position.x, 0.0f, cylinder.position.z);
+        constDistFromCylinderCenter = Vector3.Distance(constCylinderCenter, new Vector3(transform.position.x, 0.0f, transform.position.z));
     }
 
     void Update()
     {
-        
-        
-
         CheckGrounded();
         Gravity();
         JumpRequestSolver();
         JumpResolver();
+        LeftRightResolver();
+        KeepCylindricalDist();
+
+        if (Input.GetKeyDown(KeyCode.R))
+            Reset();
+    }
+
+    private void Reset()
+    {
+        transform.position = startPos;
     }
 
     private void Gravity()
     {
-        Vector3 newPos = transform.position;
-
-        if (Physics.Raycast(transform.position, -Vector3.up, out hitInfo))
+        if (GravityEnabled)
         {
-            if (hitInfo.transform.gameObject.layer == layerGround)
-            {
-                currDistFromGround = hitInfo.distance;
-                if (currDistFromGround > minDistToGround)
-                    newPos += new Vector3(0.0f, -gravitySpeed, 0.0f);
-                else
-                    newPos += new Vector3(0.0f, minDistToGround-currDistFromGround, 0.0f);
-            }
-        }
+            Vector3 newPos = transform.position;
 
-        transform.SetPositionAndRotation(newPos, transform.rotation);
+            if (!jumping)
+            {
+                if (!grounded)
+                    newPos += new Vector3(0.0f, -gravitySpeed, 0.0f);
+
+                if (Physics.Raycast(transform.position, -Vector3.up, out hitInfo, distCheck))
+                {
+                    if (hitInfo.transform.gameObject.layer == layerGround)
+                    {
+                        currDistFromGround = hitInfo.distance;
+                        if (currDistFromGround <= minDistToGround)
+                            newPos = transform.position + new Vector3(0.0f, minDistToGround-currDistFromGround, 0.0f);
+                    }
+                }
+            }
+
+            transform.SetPositionAndRotation(newPos, transform.rotation);
+        }
     }
 
     private void CheckGrounded()
@@ -111,5 +133,27 @@ public class ProtagonistManager : MonoBehaviour
     private void JumpComplete()
     {
         jumpRequesting = jumping = false;
+    }
+
+    private void KeepCylindricalDist()
+    {
+        Vector3 currPos = new Vector3(transform.position.x, 0.0f, transform.position.z);
+        float distanceFromCnt = Vector3.Distance(currPos, constCylinderCenter);
+        if (distanceFromCnt != constDistFromCylinderCenter)
+        {
+            Vector3 fromOriginToObject = currPos - constCylinderCenter; 
+            fromOriginToObject *= constDistFromCylinderCenter / distanceFromCnt; 
+            Vector3 newLocation = constCylinderCenter + fromOriginToObject; 
+
+            transform.position = new Vector3(newLocation.x, transform.position.y, newLocation.z);
+        }
+    }
+
+    private void LeftRightResolver()
+    {
+        if (Input.GetKey(KeyCode.LeftArrow))
+            transform.SetPositionAndRotation(transform.position - lateralVectorSpeed, transform.rotation);
+        else if (Input.GetKey(KeyCode.RightArrow))
+            transform.SetPositionAndRotation(transform.position + lateralVectorSpeed, transform.rotation);
     }
 }

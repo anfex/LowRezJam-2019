@@ -8,7 +8,8 @@ public class LevelManager : MonoBehaviour
 
     public Vector3 point = Vector3.zero;
     public float currRotSpeed = 0.0f;
-
+    public float speedIncrease = 1.0f;
+    public float maxSpeed = 20.0f;
 
 
     // Start is called before the first frame update
@@ -21,5 +22,6 @@ public class LevelManager : MonoBehaviour
     void Update()
     {
         transform.RotateAround(point, Vector3.up, currRotSpeed * Time.deltaTime);
+        currRotSpeed += speedIncrease * Time.deltaTime;
     }
 }

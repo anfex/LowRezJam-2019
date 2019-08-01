@@ -26,20 +26,8 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: jumpForce.x
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: jumpForce.y
+    propertyPath: GravityEnabled
     value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: jumpForce.z
-    value: 0
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: maxJumpTime
-    value: 3
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: minDistToGround
@@ -51,37 +39,41 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: jumpTime
-    value: 0.75
+    value: 0.17
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: jumpHeight
-    value: 1.75
+    value: 2.5
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: rb
+    propertyPath: lateralVectorSpeed.x
+    value: 0.2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lateralVectorSpeed.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lateralVectorSpeed.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: cylinder
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: jumping
+    propertyPath: constCylinderCenter.x
+    value: -0.0000002316
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: constCylinderCenter.y
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: jumpRequesting
-    value: 0
+    propertyPath: constCylinderCenter.z
+    value: 0.0000004632
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: grounded
-    value: 1
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: layerGround
-    value: 8
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: currDistFromGround
-    value: 0.5
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: jump_peakYpos
-    value: 5.74
+    propertyPath: constDistFromCylinderCenter
+    value: 3.0200005
     objectReference: {fileID: 0}
