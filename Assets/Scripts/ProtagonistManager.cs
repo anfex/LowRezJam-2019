@@ -22,6 +22,7 @@ public class ProtagonistManager : MonoBehaviour
     public Vector3 constCylinderCenter;
     public float constDistFromCylinderCenter;
     public float distCheck = 0.25f;
+    public Ease jumpEasingType = Ease.InOutQuad;
 
     // supporting vars
     bool jumping = false;
@@ -120,7 +121,7 @@ public class ProtagonistManager : MonoBehaviour
             {
                 jumping = true;
                 jump_peakYpos = transform.position.y + jumpHeight;
-                jumpTweener = transform.DOMoveY(jump_peakYpos, jumpTime).OnComplete(JumpComplete);
+                jumpTweener = transform.DOMoveY(jump_peakYpos, jumpTime).SetEase(jumpEasingType).OnComplete(JumpComplete);
             }
         }
         else
