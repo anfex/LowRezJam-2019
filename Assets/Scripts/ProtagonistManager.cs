@@ -65,32 +65,6 @@ public class ProtagonistManager : MonoBehaviour
         transform.position = startPos;
     }
 
-    private void Gravity()
-    {
-        if (GravityEnabled)
-        {
-            Vector3 newPos = transform.position;
-
-            if (!jumping)
-            {
-                if (!grounded)
-                    newPos += new Vector3(0.0f, -gravitySpeed, 0.0f);
-
-                if (Physics.Raycast(transform.position, -Vector3.up, out hitInfo, distCheck))
-                {
-                    if (hitInfo.transform.gameObject.layer == layerGround)
-                    {
-                        currDistFromGround = hitInfo.distance;
-                        if (currDistFromGround <= minDistToGround)
-                            newPos = transform.position + new Vector3(0.0f, minDistToGround-currDistFromGround, 0.0f);
-                    }
-                }
-            }
-
-            transform.SetPositionAndRotation(newPos, transform.rotation);
-        }
-    }
-
     private void CheckGrounded()
     {
         grounded = false;
@@ -99,7 +73,24 @@ public class ProtagonistManager : MonoBehaviour
             if (hitInfo.transform.gameObject.layer == layerGround)
             {
                 currDistFromGround = hitInfo.distance;
-                grounded = currDistFromGround <= minDistToGround;
+                if (currDistFromGround <= minDistToGround)
+                {
+                    grounded = true;
+                    Vector3 newPos = transform.position + new Vector3(0.0f, minDistToGround - currDistFromGround, 0.0f);
+                    transform.SetPositionAndRotation(newPos, transform.rotation);
+                }
+            }
+        }
+    }
+
+    private void Gravity()
+    {
+        if (GravityEnabled)
+        {
+            if (!jumping && !grounded)
+            {
+                Vector3 newPos = transform.position + new Vector3(0.0f, -gravitySpeed, 0.0f);
+                transform.SetPositionAndRotation(newPos, transform.rotation);
             }
         }
     }

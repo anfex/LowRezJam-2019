@@ -1374,13 +1374,14 @@ MonoBehaviour:
   GravityEnabled: 1
   minDistToGround: 0.5
   gravitySpeed: 0.15
-  jumpTime: 0.17
+  jumpTime: 0.5
   jumpHeight: 2.5
-  lateralVectorSpeed: {x: 0.2, y: 0, z: 0}
-  cylinder: {fileID: 234739339}
+  lateralVectorSpeed: {x: 0.1, y: 0, z: 0}
+  cylinder: {fileID: 0}
   constCylinderCenter: {x: -0.0000002316, y: 0, z: 0.0000004632}
   constDistFromCylinderCenter: 3.0200005
   distCheck: 0.01
+  jumpEasingType: 6
 --- !u!1 &2133607479
 GameObject:
   m_ObjectHideFlags: 0
