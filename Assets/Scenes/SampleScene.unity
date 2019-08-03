@@ -416,11 +416,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b304fcf617986c4fa46cc5c6d6936b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRotSpeed: 0
+  startRotSpeed: 1
   point: {x: 0, y: 0, z: 0}
   currRotSpeed: 0
-  speedIncrease: 0
-  maxSpeed: 15
+  speedIncrease: 1
+  maxSpeed: 20
 --- !u!1 &594011636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1372,16 +1372,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GravityEnabled: 1
-  minDistToGround: 0.5
-  gravitySpeed: 0.15
-  jumpTime: 0.5
   jumpHeight: 2.5
   lateralVectorSpeed: {x: 0.1, y: 0, z: 0}
-  cylinder: {fileID: 0}
+  walkAcceleration: 0.08
+  airAcceleration: 0.06
+  cylinder: {fileID: 234739339}
   constCylinderCenter: {x: -0.0000002316, y: 0, z: 0.0000004632}
   constDistFromCylinderCenter: 3.0200005
+  minDistToGround: 0.5
   distCheck: 0.01
-  jumpEasingType: 6
 --- !u!1 &2133607479
 GameObject:
   m_ObjectHideFlags: 0
