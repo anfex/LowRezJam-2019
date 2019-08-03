@@ -420,7 +420,7 @@ MonoBehaviour:
   point: {x: 0, y: 0, z: 0}
   currRotSpeed: 0
   speedIncrease: 1
-  maxSpeed: 20
+  maxSpeed: 50
 --- !u!1 &594011636
 GameObject:
   m_ObjectHideFlags: 0

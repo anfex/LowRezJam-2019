@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
     void Update()
     {
         transform.RotateAround(point, Vector3.up, currRotSpeed * Time.deltaTime);
-        currRotSpeed += speedIncrease * Time.deltaTime;
+        if (currRotSpeed < maxSpeed)
+            currRotSpeed += speedIncrease * Time.deltaTime;
     }
 }
