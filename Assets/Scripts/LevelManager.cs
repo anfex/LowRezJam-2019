@@ -18,14 +18,14 @@ public class LevelManager : MonoBehaviour
 
     // support vars
     float previousY = 0.0f;
-    float previousDeg = 180.0f;
+    float previousDeg = 90.0f;
 
 
     void Start()
     {
         currRotSpeed = startRotSpeed;
-
-        for (int i = 0; i < 10; i++)
+        
+        for (int i = 0; i < 1000; i++)
             CreateNewStep();
     }
 
@@ -34,9 +34,6 @@ public class LevelManager : MonoBehaviour
         transform.RotateAround(point, Vector3.up, currRotSpeed * Time.deltaTime);
         if (currRotSpeed < maxSpeed)
             currRotSpeed += speedIncrease * Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            CreateNewStep();
     }
 
     private void CreateNewStep()

@@ -28,16 +28,10 @@ public class ProtagonistManager : MonoBehaviour
     float currDistFromGround;
     Vector3 startPos;
     RaycastHit hitInfo;
-    Vector3 velocity;
-
-    public AF_MessageHandler MsgHandler { get; private set; }
-
+    public Vector3 velocity;
 
     private void Awake()
     {
-        DOTween.Init();
-        MsgHandler = new AF_MessageHandler();
-        //MsgHandler.RegisterToManager(AF_Message.MsgType.Restart);
     }
 
     void Start()
@@ -52,8 +46,6 @@ public class ProtagonistManager : MonoBehaviour
         CheckGrounded();
         JumpRequestMgr();
         GravityMgr();
-        //HorizMovementMgr();
-        //KeepCylindricalDist();
 
         if (Input.GetKeyDown(KeyCode.R))
             Reset();
@@ -68,7 +60,7 @@ public class ProtagonistManager : MonoBehaviour
     private void CheckGrounded()
     {
         grounded = false;
-        if (Physics.Raycast(transform.position, -Vector3.up, out hitInfo))
+        if (velocity.y <= 0 && Physics.Raycast(transform.position, -Vector3.up, out hitInfo))
         {
             if (hitInfo.transform.gameObject.layer == layerGround)
             {
@@ -77,9 +69,11 @@ public class ProtagonistManager : MonoBehaviour
                 {
                     grounded = true;
                     velocity.y = 0;
-                    Vector3 newPos = transform.position + new Vector3(0.0f, minDistToGround - currDistFromGround, 0.0f);
-                    transform.SetPositionAndRotation(newPos, transform.rotation);
-                }
+
+                    //float newY = minDistToGround - currDistFromGround;
+                    //Vector3 newPos = transform.position + new Vector3(0.0f, newY, 0.0f);
+                    //transform.SetPositionAndRotation(newPos, transform.rotation);
+                }    
             }
         }
     }
