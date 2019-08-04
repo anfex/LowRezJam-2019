@@ -13,16 +13,16 @@ public class ProtagonistManager : MonoBehaviour
     public bool GravityEnabled = true;
 
     // protagonist specs
-    public float minDistToGround = 0.5f;
-    public float gravitySpeed = 0.2f;
-    public float jumpTime = 2.0f;
     public float jumpHeight = 1.5f;
     public Vector3 lateralVectorSpeed;
+    public float walkAcceleration;
+    public float airAcceleration;
+
     public Transform cylinder;
     public Vector3 constCylinderCenter;
     public float constDistFromCylinderCenter;
+    public float minDistToGround = 0.5f;
     public float distCheck = 0.25f;
-    public Ease jumpEasingType = Ease.InOutQuad;
 
     // supporting vars
     bool jumping = false;
@@ -30,10 +30,10 @@ public class ProtagonistManager : MonoBehaviour
     bool grounded = false;
     int layerGround = 8;
     float currDistFromGround;
-    float jump_peakYpos;
     Vector3 startPos;
     RaycastHit hitInfo;
-    Tween jumpTweener;
+    Vector3 velocity;
+
 
     private void Awake()
     {
@@ -50,10 +50,9 @@ public class ProtagonistManager : MonoBehaviour
     void Update()
     {
         CheckGrounded();
-        Gravity();
-        JumpRequestSolver();
-        JumpResolver();
-        LeftRightResolver();
+        JumpRequestMgr();
+        GravityMgr();
+        HorizMovementMgr();
         KeepCylindricalDist();
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -63,32 +62,7 @@ public class ProtagonistManager : MonoBehaviour
     private void Reset()
     {
         transform.position = startPos;
-    }
-
-    private void Gravity()
-    {
-        if (GravityEnabled)
-        {
-            Vector3 newPos = transform.position;
-
-            if (!jumping)
-            {
-                if (!grounded)
-                    newPos += new Vector3(0.0f, -gravitySpeed, 0.0f);
-
-                if (Physics.Raycast(transform.position, -Vector3.up, out hitInfo, distCheck))
-                {
-                    if (hitInfo.transform.gameObject.layer == layerGround)
-                    {
-                        currDistFromGround = hitInfo.distance;
-                        if (currDistFromGround <= minDistToGround)
-                            newPos = transform.position + new Vector3(0.0f, minDistToGround-currDistFromGround, 0.0f);
-                    }
-                }
-            }
-
-            transform.SetPositionAndRotation(newPos, transform.rotation);
-        }
+        velocity = Vector3.zero;
     }
 
     private void CheckGrounded()
@@ -99,41 +73,50 @@ public class ProtagonistManager : MonoBehaviour
             if (hitInfo.transform.gameObject.layer == layerGround)
             {
                 currDistFromGround = hitInfo.distance;
-                grounded = currDistFromGround <= minDistToGround;
+                if (currDistFromGround <= minDistToGround)
+                {
+                    grounded = true;
+                    velocity.y = 0;
+                    Vector3 newPos = transform.position + new Vector3(0.0f, minDistToGround - currDistFromGround, 0.0f);
+                    transform.SetPositionAndRotation(newPos, transform.rotation);
+                }
             }
         }
     }
 
-    private void JumpRequestSolver()
+    private void JumpRequestMgr()
     {
         if (Input.GetKeyDown(KeyCode.Space))
             jumpRequesting = true;
 
         if (Input.GetKeyUp(KeyCode.Space))
+        {
             jumpRequesting = false;
+            if (velocity.y > 0)
+                velocity.y = -0.1f;
+        }
     }
 
-    private void JumpResolver()
+    private void GravityMgr()
     {
-        if (jumpRequesting)
+        if (GravityEnabled)
         {
-            if (!jumping && grounded)
+            if (jumpRequesting)
             {
-                jumping = true;
-                jump_peakYpos = transform.position.y + jumpHeight;
-                jumpTweener = transform.DOMoveY(jump_peakYpos, jumpTime).SetEase(jumpEasingType).OnComplete(JumpComplete);
+                if (!jumping && grounded)
+                {
+                    jumping = true;
+                    velocity.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
+                }
             }
-        }
-        else
-        {
-            jumping = false;
-            jumpTweener.Kill();
-        }
-    }
+            else
+                jumping = false;
 
-    private void JumpComplete()
-    {
-        jumpRequesting = jumping = false;
+            if (!grounded)
+                velocity.y += Physics2D.gravity.y * Time.deltaTime;
+
+            transform.Translate(velocity * Time.deltaTime);
+        }
     }
 
     private void KeepCylindricalDist()
@@ -150,11 +133,14 @@ public class ProtagonistManager : MonoBehaviour
         }
     }
 
-    private void LeftRightResolver()
+    private void HorizMovementMgr()
     {
+        Vector3 lateralSpeed = Vector3.zero;
+        lateralSpeed.x = grounded ? walkAcceleration : airAcceleration;
+
         if (Input.GetKey(KeyCode.LeftArrow))
-            transform.SetPositionAndRotation(transform.position - lateralVectorSpeed, transform.rotation);
+            transform.SetPositionAndRotation(transform.position - lateralSpeed, transform.rotation);
         else if (Input.GetKey(KeyCode.RightArrow))
-            transform.SetPositionAndRotation(transform.position + lateralVectorSpeed, transform.rotation);
+            transform.SetPositionAndRotation(transform.position + lateralSpeed, transform.rotation);
     }
 }
