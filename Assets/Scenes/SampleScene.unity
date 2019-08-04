@@ -345,6 +345,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 546235606}
+  - component: {fileID: 546235607}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -371,6 +372,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &546235607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546235605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304d70fd460558e4e887e8da958abe22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &585590886
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,103 +429,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b304fcf617986c4fa46cc5c6d6936b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRotSpeed: 30
+  startRotSpeed: 0
   point: {x: -0.15, y: 0, z: 0}
-  currRotSpeed: 30
-  speedIncrease: 2
+  currRotSpeed: 0
+  speedIncrease: 0
   maxSpeed: 80
---- !u!1 &594011636
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 594011637}
-  - component: {fileID: 594011640}
-  - component: {fileID: 594011639}
-  - component: {fileID: 594011638}
-  m_Layer: 8
-  m_Name: Cube (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &594011637
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 594011636}
-  m_LocalRotation: {x: -0, y: -0.9238793, z: -0, w: 0.38268405}
-  m_LocalPosition: {x: 0, y: 5.5400004, z: 3.1}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 6.7765}
-  m_Children: []
-  m_Father: {fileID: 1139827059}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: -135, z: 0}
---- !u!65 &594011638
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 594011636}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.7, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &594011639
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 594011636}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 410875fa43459534f9a89fad39f4b05f, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &594011640
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 594011636}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  branches:
+  - {fileID: 6069157825368152202, guid: b7405b44bd2b7b847b2deae5bdaf312c, type: 3}
+  stepPlaceDegRange:
+  - 35
+  - 55
+  stepPlacePosRange:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  stepParent: {fileID: 1139827058}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,7 +734,6 @@ Transform:
   - {fileID: 2133607480}
   - {fileID: 1167865648}
   - {fileID: 377210983}
-  - {fileID: 594011637}
   m_Father: {fileID: 585590887}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1169,7 +1098,7 @@ MonoBehaviour:
   lateralVectorSpeed: {x: 0.1, y: 0, z: 0}
   walkAcceleration: 0.08
   airAcceleration: 0.06
-  cylinder: {fileID: 0}
+  cylinder: {fileID: 234739339}
   constCylinderCenter: {x: -0.15000004, y: 0, z: 0.00000004632}
   constDistFromCylinderCenter: 0.30300006
   minDistToGround: 0.05

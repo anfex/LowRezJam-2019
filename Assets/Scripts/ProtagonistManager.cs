@@ -4,10 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// task: make it jump a la mario
-// task: distance from center of the cylinder should always be the same
-// task: make it stop on the ground, not stay in the center all the time
-
 public class ProtagonistManager : MonoBehaviour
 {
     public bool GravityEnabled = true;
@@ -34,10 +30,14 @@ public class ProtagonistManager : MonoBehaviour
     RaycastHit hitInfo;
     Vector3 velocity;
 
+    public AF_MessageHandler MsgHandler { get; private set; }
+
 
     private void Awake()
     {
         DOTween.Init();
+        MsgHandler = new AF_MessageHandler();
+        //MsgHandler.RegisterToManager(AF_Message.MsgType.Restart);
     }
 
     void Start()
@@ -116,7 +116,6 @@ public class ProtagonistManager : MonoBehaviour
                 velocity.y += Physics2D.gravity.y * Time.deltaTime;
 
             transform.Translate(velocity * Time.deltaTime);
-            //transform.position = new Vector3(Mathf.Abs(transform.position.x), Mathf.Abs(transform.position.y), Mathf.Abs(transform.position.z));
         }
     }
 
