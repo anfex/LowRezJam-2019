@@ -30,24 +30,12 @@ Preset:
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: minDistToGround
-    value: 0.5
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: gravitySpeed
-    value: 0.15
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: jumpTime
-    value: 0.17
-    objectReference: {fileID: 0}
-  - target: {fileID: 0}
     propertyPath: jumpHeight
-    value: 2.5
+    value: 0.25
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: lateralVectorSpeed.x
-    value: 0.2
+    value: 0.1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: lateralVectorSpeed.y
@@ -58,12 +46,20 @@ Preset:
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: walkAcceleration
+    value: 0.08
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: airAcceleration
+    value: 0.06
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: cylinder
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: constCylinderCenter.x
-    value: -0.0000002316
+    value: -0.15000004
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: constCylinderCenter.y
@@ -71,9 +67,17 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: constCylinderCenter.z
-    value: 0.0000004632
+    value: 0.00000004632
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: constDistFromCylinderCenter
-    value: 3.0200005
+    value: 0.30300006
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: minDistToGround
+    value: 0.05
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: distCheck
+    value: 0.01
     objectReference: {fileID: 0}
