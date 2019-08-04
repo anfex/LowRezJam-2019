@@ -52,8 +52,8 @@ public class ProtagonistManager : MonoBehaviour
         CheckGrounded();
         JumpRequestMgr();
         GravityMgr();
-        HorizMovementMgr();
-        KeepCylindricalDist();
+        //HorizMovementMgr();
+        //KeepCylindricalDist();
 
         if (Input.GetKeyDown(KeyCode.R))
             Reset();
@@ -116,6 +116,7 @@ public class ProtagonistManager : MonoBehaviour
                 velocity.y += Physics2D.gravity.y * Time.deltaTime;
 
             transform.Translate(velocity * Time.deltaTime);
+            //transform.position = new Vector3(Mathf.Abs(transform.position.x), Mathf.Abs(transform.position.y), Mathf.Abs(transform.position.z));
         }
     }
 
@@ -129,7 +130,7 @@ public class ProtagonistManager : MonoBehaviour
             fromOriginToObject *= constDistFromCylinderCenter / distanceFromCnt; 
             Vector3 newLocation = constCylinderCenter + fromOriginToObject; 
 
-            transform.position = new Vector3(newLocation.x, transform.position.y, newLocation.z);
+            transform.position = new Vector3(Mathf.Abs(newLocation.x), Mathf.Abs(transform.position.y), Mathf.Abs(newLocation.z));
         }
     }
 

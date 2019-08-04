@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: protagonist
+    uniqueID: 1620813945
+    locked: 0
