@@ -20,6 +20,8 @@ public class ProtagonistManager : MonoBehaviour
     public float minDistToGround = 0.5f;
     public float distCheck = 0.25f;
 
+    public Animator protagonistAnimator = null;
+
     // supporting vars
     bool jumping = false;
     bool jumpRequesting = false;
@@ -46,9 +48,15 @@ public class ProtagonistManager : MonoBehaviour
         CheckGrounded();
         JumpRequestMgr();
         GravityMgr();
+        AnimationMgr();
 
         if (Input.GetKeyDown(KeyCode.R))
             Reset();
+    }
+
+    private void AnimationMgr()
+    {
+        protagonistAnimator.SetBool("Jumping", velocity.y != 0);
     }
 
     private void Reset()
