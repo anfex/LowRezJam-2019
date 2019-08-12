@@ -319,9 +319,10 @@ MonoBehaviour:
   constStepsDeg: -60
   stepPlacePosRange:
   - {x: -0.15, y: -0.15}
-  - {x: 0.15, y: 0.2}
+  - {x: 0.15, y: 0.35}
   - {x: 0, y: 0}
   stepParent: {fileID: 1139827058}
+  startStepsToCreate: 500
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,4 +1004,6 @@ MonoBehaviour:
   constDistFromCylinderCenter: 0.30300006
   minDistToGround: 0.05
   distCheck: 0.01
+  protagonistAnimator: {fileID: 1834092604}
+  levelObject: {fileID: 585590888}
   velocity: {x: 0, y: 0, z: 0}

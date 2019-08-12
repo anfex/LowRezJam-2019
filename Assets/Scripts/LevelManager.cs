@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     public float constStepsDeg = -45;
     public Vector2[] stepPlacePosRange = new Vector2[3];
     public GameObject stepParent = null;
+    public int startStepsToCreate = 500;
 
     // support vars
     float previousY = 0.0f;
@@ -25,7 +26,7 @@ public class LevelManager : MonoBehaviour
     {
         currRotSpeed = startRotSpeed;
         
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < startStepsToCreate; i++)
             CreateNewStep();
     }
 
@@ -36,7 +37,7 @@ public class LevelManager : MonoBehaviour
             currRotSpeed += speedIncrease * Time.deltaTime;
     }
 
-    private void CreateNewStep()
+    public void CreateNewStep()
     {
         previousY += Random.Range(stepPlacePosRange[1].x, stepPlacePosRange[1].y);
         previousDeg += Random.Range(stepPlaceDegRange[0], stepPlaceDegRange[1]) + constStepsDeg;
@@ -44,7 +45,7 @@ public class LevelManager : MonoBehaviour
         GameObject newStep =    Instantiate(branches[Random.Range(0,branches.Count)], 
                                             new Vector3(Random.Range(stepPlacePosRange[0].x, stepPlacePosRange[0].y), 
                                                         previousY,
-                                                        Random.Range(stepPlacePosRange[2].x, stepPlacePosRange[2].y)), 
+                                                        Random.Range(stepPlacePosRange[2].x, stepPlacePosRange[2].y)),
                                             Quaternion.AngleAxis(previousDeg, Vector3.up),
                                             stepParent.transform);
     }

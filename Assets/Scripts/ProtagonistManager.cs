@@ -21,6 +21,7 @@ public class ProtagonistManager : MonoBehaviour
     public float distCheck = 0.25f;
 
     public Animator protagonistAnimator = null;
+    public LevelManager levelObject = null;
 
     // supporting vars
     bool jumping = false;
@@ -89,7 +90,10 @@ public class ProtagonistManager : MonoBehaviour
     private void JumpRequestMgr()
     {
         if (Input.GetKeyDown(KeyCode.Space))
+        {
             jumpRequesting = true;
+            levelObject.CreateNewStep();
+        }
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
