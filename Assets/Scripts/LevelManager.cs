@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
         previousY += Random.Range(stepPlacePosRange[1].x, stepPlacePosRange[1].y);
         previousDeg += Random.Range(stepPlaceDegRange[0], stepPlaceDegRange[1]) + constStepsDeg;
 
-        GameObject newStep =    Instantiate(branches[0], 
+        GameObject newStep =    Instantiate(branches[Random.Range(0,branches.Count)], 
                                             new Vector3(Random.Range(stepPlacePosRange[0].x, stepPlacePosRange[0].y), 
                                                         previousY,
                                                         Random.Range(stepPlacePosRange[2].x, stepPlacePosRange[2].y)), 
