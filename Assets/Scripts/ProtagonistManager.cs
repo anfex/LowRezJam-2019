@@ -19,6 +19,7 @@ public class ProtagonistManager : MonoBehaviour
     public float constDistFromCylinderCenter;
     public float minDistToGround = 0.5f;
     public float distCheck = 0.25f;
+    public float maxChopDist = 0.5f;
 
     public Animator protagonistAnimator = null;
     public LevelManager levelObject = null;
@@ -47,7 +48,7 @@ public class ProtagonistManager : MonoBehaviour
     void Update()
     {
         CheckGrounded();
-        JumpRequestMgr();
+        UserInputsMgr();
         GravityMgr();
         AnimationMgr();
 
@@ -87,7 +88,7 @@ public class ProtagonistManager : MonoBehaviour
         }
     }
 
-    private void JumpRequestMgr()
+    private void UserInputsMgr()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -100,6 +101,31 @@ public class ProtagonistManager : MonoBehaviour
             jumpRequesting = false;
             if (velocity.y > 0)
                 velocity.y = -0.1f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            ChopDown();
+            protagonistAnimator.SetTrigger("Chop");
+        }
+    }
+
+    private void ChopDown()
+    {
+        if (Physics.Raycast(transform.position, -Vector3.up, out hitInfo))
+        {
+            if (hitInfo.transform.gameObject.layer == layerGround)
+            {
+                currDistFromGround = hitInfo.distance;
+                if (currDistFromGround <= maxChopDist)
+                {
+                    // play chopping anim
+                    if (hitInfo.transform.gameObject.GetComponent<Branch>() != null)
+                    {
+                        hitInfo.transform.gameObject.GetComponent<Branch>().KillBush();
+                    }
+                }
+            }
         }
     }
 

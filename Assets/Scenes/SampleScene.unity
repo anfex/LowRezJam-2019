@@ -147,8 +147,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234739338}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.897, z: 0}
-  m_LocalScale: {x: 0.4, y: 2.275075, z: 0.4}
+  m_LocalPosition: {x: 0, y: 199, z: 0}
+  m_LocalScale: {x: 0.4, y: 200, z: 0.4}
   m_Children: []
   m_Father: {fileID: 585590887}
   m_RootOrder: 0
@@ -308,21 +308,22 @@ MonoBehaviour:
   startRotSpeed: 45
   point: {x: -0.15, y: 0, z: 0}
   currRotSpeed: 0
-  speedIncrease: 0
-  maxSpeed: 80
+  speedIncrease: 1
+  maxSpeed: 100
   branches:
   - {fileID: 2375633424138316138, guid: 111966c60bc27714e989d83421abd1bf, type: 3}
-  - {fileID: 2375633424138316138, guid: dab150b89b2b6e344878a88d97b7b9bd, type: 3}
+  - {fileID: 2375633424138316138, guid: 111966c60bc27714e989d83421abd1bf, type: 3}
+  - {fileID: 2375633424138316138, guid: 70db5a78bb0102e47bbf239e2c9ac546, type: 3}
   stepPlaceDegRange:
   - 0
-  - 0
-  constStepsDeg: -60
+  - -40
+  constStepsDeg: -30
   stepPlacePosRange:
   - {x: -0.15, y: -0.15}
   - {x: 0.15, y: 0.35}
   - {x: 0, y: 0}
   stepParent: {fileID: 1139827058}
-  startStepsToCreate: 500
+  startStepsToCreate: 1000
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1004,8 @@ MonoBehaviour:
   constCylinderCenter: {x: -0.15000004, y: 0, z: 0.00000004632}
   constDistFromCylinderCenter: 0.30300006
   minDistToGround: 0.05
-  distCheck: 0.01
+  distCheck: 1
+  maxChopDist: 0.5
   protagonistAnimator: {fileID: 1834092604}
   levelObject: {fileID: 585590888}
   velocity: {x: 0, y: 0, z: 0}
