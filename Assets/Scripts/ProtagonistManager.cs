@@ -142,7 +142,6 @@ public class ProtagonistManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpRequesting = true;
-            levelObject.CreateNewStep();
         }
 
         if (Input.GetKeyUp(KeyCode.Space))

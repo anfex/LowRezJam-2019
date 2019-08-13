@@ -20,11 +20,8 @@ public class LevelManager : MonoBehaviour
     public float timeForNextDifficultyLevel = 15;
     public float currTimeLeftForNextLevel;
 
-
     public GameObject stepParent = null;
-    public int startStepsToCreate = 500;
-
-
+    public int startingSteps = 5;
 
     // support vars
     public int currDifficultyStep = 0;
@@ -59,6 +56,9 @@ public class LevelManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
             Reset();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            CreateNewStep();
     }
 
     public void Reset()
@@ -72,18 +72,19 @@ public class LevelManager : MonoBehaviour
         foreach (Transform child in stepParent.transform)
             Destroy(child.gameObject);
 
-        for (int i = 0; i < startStepsToCreate; i++)
-        CreateNewStep();
+        for (int i = 0; i < startingSteps; i++)
+            CreateNewStep();
     }
 
     public void CreateNewStep()
     {
         previousY += Random.Range(stepPlacePosRanges[currDifficultyStep].z, stepPlacePosRanges[currDifficultyStep].w);
         previousDeg += Random.Range(stepPlaceDegRanges[currDifficultyStep].x, stepPlaceDegRanges[currDifficultyStep].y);
+        Quaternion newRot = stepParent.transform.rotation * Quaternion.Euler(0, previousDeg, 0);
 
         GameObject newStep = Instantiate(branches[Random.Range(0, branches.Count)],
                                             new Vector3(Random.Range(stepPlacePosRanges[currDifficultyStep].x, stepPlacePosRanges[currDifficultyStep].y), previousY, 0),
-                                            Quaternion.AngleAxis(previousDeg, Vector3.up),
+                                            newRot,
                                             stepParent.transform);
     }
 }
