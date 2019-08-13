@@ -13,13 +13,21 @@ public class LevelManager : MonoBehaviour
     public float speedIncrease = 1.0f;
     public float maxSpeed = 20.0f;
     public List<GameObject> branches = null;
-    public float[] stepPlaceDegRange = new float[2];
-    public float constStepsDeg = -45;
-    public Vector2[] stepPlacePosRange = new Vector2[3];
+
+    public int difficultySteps = 5;
+    public Vector4[] stepPlacePosRanges = new Vector4[5];
+    public Vector2[] stepPlaceDegRanges = new Vector2[5];
+    public float timeForNextDifficultyLevel = 15;
+    public float currTimeLeftForNextLevel;
+
+
     public GameObject stepParent = null;
     public int startStepsToCreate = 500;
 
+
+
     // support vars
+    public int currDifficultyStep = 0;
     float previousY = 0.0f;
     float previousDeg = 90.0f;
 
@@ -39,6 +47,14 @@ public class LevelManager : MonoBehaviour
 
             if (currRotSpeed < maxSpeed)
                 currRotSpeed += speedIncrease * Time.deltaTime;
+
+            currTimeLeftForNextLevel -= Time.deltaTime;
+            if (currTimeLeftForNextLevel < 0)
+            {
+                currTimeLeftForNextLevel = timeForNextDifficultyLevel;
+                if (currDifficultyStep < difficultySteps)
+                    currDifficultyStep++;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -50,6 +66,8 @@ public class LevelManager : MonoBehaviour
         currRotSpeed = startRotSpeed;
         previousY = 0.0f;
         previousDeg = 90.0f;
+        currDifficultyStep = 0;
+        currTimeLeftForNextLevel = timeForNextDifficultyLevel;
 
         foreach (Transform child in stepParent.transform)
             Destroy(child.gameObject);
@@ -60,13 +78,11 @@ public class LevelManager : MonoBehaviour
 
     public void CreateNewStep()
     {
-        previousY += Random.Range(stepPlacePosRange[1].x, stepPlacePosRange[1].y);
-        previousDeg += Random.Range(stepPlaceDegRange[0], stepPlaceDegRange[1]) + constStepsDeg;
+        previousY += Random.Range(stepPlacePosRanges[currDifficultyStep].z, stepPlacePosRanges[currDifficultyStep].w);
+        previousDeg += Random.Range(stepPlaceDegRanges[currDifficultyStep].x, stepPlaceDegRanges[currDifficultyStep].y);
 
-        GameObject newStep =    Instantiate(branches[Random.Range(0,branches.Count)], 
-                                            new Vector3(Random.Range(stepPlacePosRange[0].x, stepPlacePosRange[0].y), 
-                                                        previousY,
-                                                        Random.Range(stepPlacePosRange[2].x, stepPlacePosRange[2].y)),
+        GameObject newStep = Instantiate(branches[Random.Range(0, branches.Count)],
+                                            new Vector3(Random.Range(stepPlacePosRanges[currDifficultyStep].x, stepPlacePosRanges[currDifficultyStep].y), previousY, 0),
                                             Quaternion.AngleAxis(previousDeg, Vector3.up),
                                             stepParent.transform);
     }
