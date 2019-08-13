@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour
 {
@@ -21,20 +23,39 @@ public class LevelManager : MonoBehaviour
     float previousY = 0.0f;
     float previousDeg = 90.0f;
 
+    public bool Active { get; set; } = false;
+
 
     void Start()
     {
-        currRotSpeed = startRotSpeed;
-        
-        for (int i = 0; i < startStepsToCreate; i++)
-            CreateNewStep();
+        Reset();
     }
 
     void Update()
     {
-        transform.RotateAround(point, Vector3.up, currRotSpeed * Time.deltaTime);
-        if (currRotSpeed < maxSpeed)
-            currRotSpeed += speedIncrease * Time.deltaTime;
+        if (Active)
+        {
+            transform.RotateAround(point, Vector3.up, currRotSpeed * Time.deltaTime);
+
+            if (currRotSpeed < maxSpeed)
+                currRotSpeed += speedIncrease * Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+            Reset();
+    }
+
+    public void Reset()
+    {
+        currRotSpeed = startRotSpeed;
+        previousY = 0.0f;
+        previousDeg = 90.0f;
+
+        foreach (Transform child in stepParent.transform)
+            Destroy(child.gameObject);
+
+        for (int i = 0; i < startStepsToCreate; i++)
+        CreateNewStep();
     }
 
     public void CreateNewStep()

@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ProtagonistManager : MonoBehaviour
 {
+    public bool Active { get; set; } = false;
+
     public bool GravityEnabled = true;
 
     // protagonist specs
@@ -20,11 +22,15 @@ public class ProtagonistManager : MonoBehaviour
     public float minDistToGround = 0.5f;
     public float distCheck = 0.25f;
     public float maxChopDist = 0.5f;
+    public float deathYDistanceGrace = 1.0f;
+    private float floorMinYPos = 0.1261f;
 
     public Animator protagonistAnimator = null;
     public LevelManager levelObject = null;
+    
 
     // supporting vars
+    float deadYPosThreshold = 0.0f;  // TODO: should be based on the previous step height
     bool jumping = false;
     bool jumpRequesting = false;
     bool grounded = false;
@@ -33,13 +39,23 @@ public class ProtagonistManager : MonoBehaviour
     Vector3 startPos;
     RaycastHit hitInfo;
     public Vector3 velocity;
+    int lastSafeStepId = int.MinValue;
+    float lastSafeStepYPos = float.MinValue;
+
+    AF_MessageHandler msgHandler = null;
+
+    public Vector3 CurrPosition { get { return transform.position; } }
+    public bool Alive { get; set; }
+
 
     private void Awake()
     {
+        msgHandler = new AF_MessageHandler();
     }
 
     void Start()
     {
+        Alive = true;
         startPos = transform.position;
         constCylinderCenter = new Vector3(cylinder.position.x, 0.0f, cylinder.position.z);
         constDistFromCylinderCenter = Vector3.Distance(constCylinderCenter, new Vector3(transform.position.x, 0.0f, transform.position.z));
@@ -47,13 +63,32 @@ public class ProtagonistManager : MonoBehaviour
 
     void Update()
     {
-        CheckGrounded();
-        UserInputsMgr();
-        GravityMgr();
-        AnimationMgr();
+        if (Active)
+        {
+            if (Alive)
+            {
+                CheckGrounded();
+                UserInputsMgr();
+                GravityMgr();
+                DeathMgr();
+                AnimationMgr();
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.R))
             Reset();
+    }
+
+    private void DeathMgr()
+    {
+        // Dead when:
+        // protagonist Y position goes below last safe step Y
+        // (floor excluded. This rule starts after landing on first step)
+
+        if (transform.position.y < lastSafeStepYPos-deathYDistanceGrace)
+        {
+            Alive = false;
+        }
     }
 
     private void AnimationMgr()
@@ -61,10 +96,13 @@ public class ProtagonistManager : MonoBehaviour
         protagonistAnimator.SetBool("Jumping", velocity.y != 0);
     }
 
-    private void Reset()
+    public void Reset()
     {
         transform.position = startPos;
         velocity = Vector3.zero;
+        Alive = true;
+        lastSafeStepId = int.MinValue;
+        lastSafeStepYPos = float.MinValue;
     }
 
     private void CheckGrounded()
@@ -80,9 +118,20 @@ public class ProtagonistManager : MonoBehaviour
                     grounded = true;
                     velocity.y = 0;
 
+                    // try to fix the Y position and not make him fall into the ground/step
                     //float newY = minDistToGround - currDistFromGround;
                     //Vector3 newPos = transform.position + new Vector3(0.0f, newY, 0.0f);
                     //transform.SetPositionAndRotation(newPos, transform.rotation);
+
+                    // check new step
+                    int currStepID = hitInfo.transform.gameObject.GetInstanceID();
+                    if (lastSafeStepId != currStepID
+                        && hitInfo.transform.position.y > lastSafeStepYPos
+                        && hitInfo.transform.gameObject.name != "Floor")
+                    {
+                        lastSafeStepId = currStepID;
+                        lastSafeStepYPos = transform.position.y;
+                    }
                 }    
             }
         }
@@ -148,6 +197,9 @@ public class ProtagonistManager : MonoBehaviour
                 velocity.y += Physics2D.gravity.y * Time.deltaTime;
 
             transform.Translate(velocity * Time.deltaTime);
+
+            if (transform.position.y < floorMinYPos)
+                transform.position = new Vector3(transform.position.x, floorMinYPos, transform.position.z);
         }
     }
 
