@@ -312,13 +312,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startRotSpeed: 45
   point: {x: -0.15, y: 0, z: 0}
-  speedIncrease: 1
+  speedIncrease: 1.6
   maxSpeed: 100
   branches:
   - {fileID: 2375633424138316138, guid: 111966c60bc27714e989d83421abd1bf, type: 3}
   - {fileID: 2375633424138316138, guid: 111966c60bc27714e989d83421abd1bf, type: 3}
   - {fileID: 2375633424138316138, guid: 70db5a78bb0102e47bbf239e2c9ac546, type: 3}
-  difficultySteps: 3
+  difficultySteps: 5
   stepPlacePosRanges:
   - {x: -0.15, y: -0.15, z: 0.25, w: 0.25}
   - {x: -0.15, y: -0.15, z: 0.22, w: 0.27}
@@ -327,14 +327,16 @@ MonoBehaviour:
   - {x: -0.15, y: -0.15, z: 0.13, w: 0.35}
   stepPlaceDegRanges:
   - {x: -50, y: -50}
+  - {x: -42, y: -57}
   - {x: -35, y: -65}
-  - {x: -20, y: -80}
-  - {x: -20, y: -80}
+  - {x: -17, y: -72}
   - {x: -20, y: -80}
   timeForNextDifficultyLevel:
   - 5
-  - 10
-  - 10
+  - 7
+  - 7
+  - 7
+  - 7
   stepParent: {fileID: 1139827058}
   startingSteps: 5
 --- !u!1 &705507993
