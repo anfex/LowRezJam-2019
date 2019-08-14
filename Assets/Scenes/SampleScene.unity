@@ -312,7 +312,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startRotSpeed: 45
   point: {x: -0.15, y: 0, z: 0}
-  currRotSpeed: 0
   speedIncrease: 1
   maxSpeed: 100
   branches:
@@ -330,11 +329,14 @@ MonoBehaviour:
   - {x: -50, y: -50}
   - {x: -35, y: -65}
   - {x: -20, y: -80}
-  timeForNextDifficultyLevel: 15
-  currTimeLeftForNextLevel: 0
+  - {x: -20, y: -80}
+  - {x: -20, y: -80}
+  timeForNextDifficultyLevel:
+  - 5
+  - 10
+  - 10
   stepParent: {fileID: 1139827058}
-  startStepsToCreate: 1000
-  currDifficultyStep: 0
+  startingSteps: 5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

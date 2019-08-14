@@ -9,7 +9,6 @@ public class LevelManager : MonoBehaviour
     public float startRotSpeed = 1.0f;
 
     public Vector3 point = Vector3.zero;
-    public float currRotSpeed = 0.0f;
     public float speedIncrease = 1.0f;
     public float maxSpeed = 20.0f;
     public List<GameObject> branches = null;
@@ -17,14 +16,15 @@ public class LevelManager : MonoBehaviour
     public int difficultySteps = 5;
     public Vector4[] stepPlacePosRanges = new Vector4[5];
     public Vector2[] stepPlaceDegRanges = new Vector2[5];
-    public float timeForNextDifficultyLevel = 15;
-    public float currTimeLeftForNextLevel;
+    public float[] timeForNextDifficultyLevel = new float[5];
 
     public GameObject stepParent = null;
     public int startingSteps = 5;
 
     // support vars
-    public int currDifficultyStep = 0;
+    float currRotSpeed = 0.0f;
+    float currTimeLeftForNextLevel;
+    int currDifficultyStep = 0;
     float previousY = 0.0f;
     float previousDeg = 90.0f;
 
@@ -48,9 +48,11 @@ public class LevelManager : MonoBehaviour
             currTimeLeftForNextLevel -= Time.deltaTime;
             if (currTimeLeftForNextLevel < 0)
             {
-                currTimeLeftForNextLevel = timeForNextDifficultyLevel;
-                if (currDifficultyStep < difficultySteps)
+                if (currDifficultyStep < difficultySteps-1)
+                {
                     currDifficultyStep++;
+                    currTimeLeftForNextLevel = timeForNextDifficultyLevel[currDifficultyStep];
+                }
             }
         }
 
@@ -67,7 +69,7 @@ public class LevelManager : MonoBehaviour
         previousY = 0.0f;
         previousDeg = 90.0f;
         currDifficultyStep = 0;
-        currTimeLeftForNextLevel = timeForNextDifficultyLevel;
+        currTimeLeftForNextLevel = timeForNextDifficultyLevel[currDifficultyStep];
 
         foreach (Transform child in stepParent.transform)
             Destroy(child.gameObject);
