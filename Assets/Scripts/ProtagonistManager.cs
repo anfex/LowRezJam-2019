@@ -24,10 +24,12 @@ public class ProtagonistManager : MonoBehaviour
     public float maxChopDist = 0.5f;
     public float deathYDistanceGrace = 1.0f;
     private float floorMinYPos = 0.1261f;
+    public int newStepPoints = 1;
+    public int bushPoints = 3;
 
     public Animator protagonistAnimator = null;
     public LevelManager levelObject = null;
-    
+
 
     // supporting vars
     float deadYPosThreshold = 0.0f;  // TODO: should be based on the previous step height
@@ -44,6 +46,7 @@ public class ProtagonistManager : MonoBehaviour
 
     AF_MessageHandler msgHandler = null;
 
+    public int Score { get; set; }
     public Vector3 CurrPosition { get { return transform.position; } }
     public bool Alive { get; set; }
 
@@ -59,6 +62,7 @@ public class ProtagonistManager : MonoBehaviour
         startPos = transform.position;
         constCylinderCenter = new Vector3(cylinder.position.x, 0.0f, cylinder.position.z);
         constDistFromCylinderCenter = Vector3.Distance(constCylinderCenter, new Vector3(transform.position.x, 0.0f, transform.position.z));
+        Score = 0;
     }
 
     void Update()
@@ -75,8 +79,8 @@ public class ProtagonistManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-            Reset();
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    Reset();
     }
 
     private void DeathMgr()
@@ -103,6 +107,7 @@ public class ProtagonistManager : MonoBehaviour
         Alive = true;
         lastSafeStepId = int.MinValue;
         lastSafeStepYPos = float.MinValue;
+        Score = 0;
     }
 
     private void CheckGrounded()
@@ -131,6 +136,8 @@ public class ProtagonistManager : MonoBehaviour
                     {
                         lastSafeStepId = currStepID;
                         lastSafeStepYPos = transform.position.y;
+                        Score += newStepPoints;
+                        levelObject.CreateNewStep();
                     }
                 }    
             }
@@ -171,6 +178,7 @@ public class ProtagonistManager : MonoBehaviour
                     if (hitInfo.transform.gameObject.GetComponent<Branch>() != null)
                     {
                         hitInfo.transform.gameObject.GetComponent<Branch>().KillBush();
+                        Score += bushPoints;
                     }
                 }
             }

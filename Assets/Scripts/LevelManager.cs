@@ -56,11 +56,8 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-            Reset();
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            CreateNewStep();
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    Reset();
     }
 
     public void Reset()
