@@ -138,6 +138,12 @@ public class ProtagonistManager : MonoBehaviour
                         lastSafeStepYPos = transform.position.y;
                         Score += newStepPoints;
                         levelObject.CreateNewStep();
+
+                        // play coin anim
+                        if (hitInfo.transform.gameObject.GetComponent<Branch>() != null)
+                        {
+                            //hitInfo.transform.gameObject.GetComponent<Branch>().GetCoin();
+                        }
                     }
                 }    
             }
@@ -178,7 +184,8 @@ public class ProtagonistManager : MonoBehaviour
                     if (hitInfo.transform.gameObject.GetComponent<Branch>() != null)
                     {
                         hitInfo.transform.gameObject.GetComponent<Branch>().KillBush();
-                        Score += bushPoints;
+                        if (hitInfo.transform.gameObject.name == "Branch_tier3")
+                            Score += bushPoints;
                     }
                 }
             }
