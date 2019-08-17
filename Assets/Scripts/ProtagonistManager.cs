@@ -30,6 +30,8 @@ public class ProtagonistManager : MonoBehaviour
     public Animator protagonistAnimator = null;
     public LevelManager levelObject = null;
 
+    public AudioSource[] wooshes = new AudioSource[3];
+    public AudioSource impact;
 
     // supporting vars
     float deadYPosThreshold = 0.0f;  // TODO: should be based on the previous step height
@@ -173,6 +175,9 @@ public class ProtagonistManager : MonoBehaviour
 
     private void ChopDown()
     {
+        int random = UnityEngine.Random.Range(0, 2);
+        wooshes[random].Play();
+
         if (Physics.Raycast(transform.position, -Vector3.up, out hitInfo))
         {
             if (hitInfo.transform.gameObject.layer == layerGround)
@@ -183,9 +188,12 @@ public class ProtagonistManager : MonoBehaviour
                     // play chopping anim
                     if (hitInfo.transform.gameObject.GetComponent<Branch>() != null)
                     {
-                        hitInfo.transform.gameObject.GetComponent<Branch>().KillBush();
-                        if (hitInfo.transform.gameObject.name == "Branch_tier3")
+                        bool chopped = hitInfo.transform.gameObject.GetComponent<Branch>().KillBush();
+                        if (hitInfo.transform.gameObject.name == "Branch_tier3" && chopped)
+                        {
                             Score += bushPoints;
+                            impact.Play();
+                        }
                     }
                 }
             }

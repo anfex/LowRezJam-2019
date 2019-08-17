@@ -22,13 +22,21 @@ public class Branch : MonoBehaviour
             splinterGo.transform.LookAt(Camera.main.transform);
     }
 
-    public void KillBush()
+    public bool KillBush()
     {
+        bool returnVal = false;
+
         if (gameObject != null)
         {
             anim.SetTrigger("play");
-            gameObject.SetActive(false);
+            if (gameObject.activeSelf)
+            {
+                gameObject.SetActive(false);
+                returnVal = true;
+            }
         }
+
+        return returnVal;
     }
 
     public void GetCoin()
